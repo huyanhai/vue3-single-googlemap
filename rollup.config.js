@@ -2,14 +2,15 @@ import VuePlugin from "rollup-plugin-vue";
 import PostCSS from "rollup-plugin-postcss";
 import NodeResolve from "@rollup/plugin-node-resolve";
 import CommonJS from "@rollup/plugin-commonjs";
+import Babel from "rollup-plugin-babel";
+import { terser } from "rollup-plugin-terser";
 
-/** @type {import('rollup').RollupOptions[]} */
 const config = [
   {
     input: "src/index.js",
     output: {
       file: "dist/app.js",
-      format: "esm",
+      format: "es",
       sourcemap: false,
     },
     plugins: [
@@ -21,10 +22,10 @@ const config = [
       }),
       CommonJS(),
       PostCSS(),
+      Babel(),
+      terser(),
     ],
-    external(id) {
-      return /^(vue)$/.test(id);
-    },
+    external: ["vue", "markerwithlabel", "connect-google-maps"],
   },
 ];
 
